@@ -8,13 +8,13 @@ import org.hibernate.cfg.Configuration;
 public class Main {
     public static void main(String[] args) {
 
-        Student s1 = new Student();
+        StudentModel s1 = new StudentModel();
         s1.setRollno(1);
         s1.setsName("Pavan kalyan");
         s1.setsAge(21);
 
         Configuration cfg = new Configuration();
-        cfg.addAnnotatedClass(org.example.Student.class);
+        cfg.addAnnotatedClass(StudentModel.class);
         cfg.configure();
 
         SessionFactory sf = cfg.buildSessionFactory();
