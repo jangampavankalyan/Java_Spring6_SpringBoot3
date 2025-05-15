@@ -13,19 +13,24 @@ public class Main {
         s1.setsName("Pavan kalyan");
         s1.setsAge(21);
 
-        Configuration cfg = new Configuration();
-        cfg.addAnnotatedClass(StudentModel.class);
-        cfg.configure();
+        StudentModel s2 = null;
 
-        SessionFactory sf = cfg.buildSessionFactory();
+        SessionFactory sf = new Configuration()
+                .addAnnotatedClass(StudentModel.class)
+                .configure()
+                .buildSessionFactory();
+
         Session session = sf.openSession();
 
-        Transaction transaction = session.beginTransaction();
+        s2 = session.get(StudentModel.class,1);
+        //Transaction transaction = session.beginTransaction();
 
-        session.save(s1);
+        //session.persist(s1);
 
-        transaction.commit();
+        //transaction.commit();
+        session.close();
+        sf.close();
 
-        System.out.println(s1);
+        System.out.println(s2);
     }
 }
