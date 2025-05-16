@@ -1,11 +1,9 @@
 package com.example.Quiz.App.controller;
 
-import com.example.Quiz.App.model.Question;
 import com.example.Quiz.App.model.QuestionWrapper;
 import com.example.Quiz.App.model.Response;
 import com.example.Quiz.App.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
