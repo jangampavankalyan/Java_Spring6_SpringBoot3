@@ -4,16 +4,14 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.chat.prompt.PromptTemplate;
-import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class OpenAIController {
+public class OllamaController {
 
 //    private OpenAiChatModel chatModel;
 //
@@ -23,18 +21,18 @@ public class OpenAIController {
 
     private ChatClient chatClient;
 
-    public OpenAIController(OpenAiChatModel chatModel) {
+    public OllamaController(OllamaChatModel chatModel) {
         this.chatClient = ChatClient.create(chatModel);
     }
-//
+
 //    private ChatClient chatClient;
 //
-//    public OpenAIController(ChatClient.Builder builder){
+//    public OllamaController(ChatClient.Builder builder){
 //        this.chatClient = builder.defaultAdvisors(new MessageChatMemoryAdvisor(new InMemoryChatMemory()))
 //                .build();
 //    }
 
-    @GetMapping("/api/{message}")
+//    @GetMapping("/api/{message}")
     public ResponseEntity<String> getAnswer(@PathVariable String message) {
 
 //        String response = chatModel.call(message);
@@ -56,26 +54,5 @@ public class OpenAIController {
                 .getText();
 
         return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/api/recommend")
-    public String recommend(@RequestParam String type, @RequestParam String year, @RequestParam String lang) {
-
-        String tempt = """
-                I want to watch {type} movie tonight with good rating,
-                looking for movies around this {year}
-                The language im looking for is {lang}.
-                Suggest one specific movie and tell me the cast and length of the movie.
-                """;
-
-        PromptTemplate promptTemplate = new PromptTemplate(tempt);
-        Prompt prompt = promptTemplate.create(Map.of("type",type,"year",year,"lang",lang));
-
-
-        String response = chatClient
-                .prompt(prompt)
-                .call()
-                .content();
-        return response;
     }
 }
